@@ -19,29 +19,32 @@ in
 
     secrets = {
       googleVisionKeyFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
+        type = lib.types.nullOr lib.types.str;
         default = null;
         description = ''
           Path to file containing Google Vision API key.
           The file should contain only the API key, no newlines.
+          Accepts strings with env vars (e.g., from agenix).
         '';
       };
 
       sshKeyFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
+        type = lib.types.nullOr lib.types.str;
         default = null;
         description = ''
           Path to file containing SSH private key for Remarkable tablet.
           Only used in SSH mode.
+          Accepts strings with env vars (e.g., from agenix).
         '';
       };
 
       cloudTokenFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
+        type = lib.types.nullOr lib.types.str;
         default = null;
         description = ''
           Path to file containing reMarkable cloud token.
           Only used in cloud mode. Generate via: uvx remarkable-mcp --register YOUR_CODE
+          Accepts strings with env vars (e.g., from agenix).
         '';
       };
     };
