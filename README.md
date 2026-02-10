@@ -61,11 +61,11 @@ Add to your `.mcp.json`:
 
 ## Cloud Mode Setup
 
-Generate a token first:
+Register your device before enabling the module:
 ```bash
-uvx remarkable-mcp --register YOUR_CODE
-# Get YOUR_CODE from my.remarkable.com/device/desktop/connect
+nix shell nixpkgs#uv -c uvx remarkable-mcp --register YOUR_CODE
 ```
+Get `YOUR_CODE` from [my.remarkable.com/device/desktop/connect](https://my.remarkable.com/device/desktop/connect).
 
 ## OCR Backends
 
