@@ -31,13 +31,12 @@ Add to your flake inputs and include the appropriate module:
     mode = "ssh";  # or "cloud"
 
     secrets = {
-      sshKeyFile = config.age.secrets.remarkable-ssh.path;      # SSH mode
       # cloudTokenFile = config.age.secrets.remarkable-token.path;  # cloud mode
       googleVisionKeyFile = config.age.secrets.google-vision.path;  # optional
     };
 
     remarkable = {
-      host = "10.11.99.1";  # SSH mode only
+      host = "remarkable";  # SSH config alias (see below)
       ocrBackend = "google";
       # rootPath = "/My Folder";  # optional: limit access
     };
@@ -46,6 +45,19 @@ Add to your flake inputs and include the appropriate module:
 ```
 
 NixOS module also requires `user = "youruser";` to specify which user gets `uv` installed.
+
+## SSH Mode Setup
+
+Configure your SSH key via `~/.ssh/config`:
+
+```
+Host remarkable
+  HostName 10.11.99.1
+  User root
+  IdentityFile ~/.ssh/remarkable_key
+```
+
+Then set `remarkable.host = "remarkable"` to use the alias.
 
 ## Usage
 

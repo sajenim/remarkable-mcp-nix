@@ -32,15 +32,6 @@ in
         '';
       };
 
-      sshKeyFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
-        default = null;
-        description = ''
-          Path to file containing SSH private key for Remarkable tablet.
-          Only used in SSH mode.
-        '';
-      };
-
       cloudTokenFile = lib.mkOption {
         type = lib.types.nullOr lib.types.path;
         default = null;
@@ -55,7 +46,11 @@ in
       host = lib.mkOption {
         type = lib.types.str;
         default = "10.11.99.1";
-        description = "Remarkable tablet IP address. Only used in SSH mode.";
+        description = ''
+          Remarkable tablet hostname or SSH config alias.
+          Use an SSH alias to configure key-based authentication.
+          Only used in SSH mode.
+        '';
       };
 
       ocrBackend = lib.mkOption {
@@ -80,10 +75,6 @@ in
 
   config = lib.mkIf cfg.enable {
     assertions = [
-      {
-        assertion = cfg.mode == "ssh" -> cfg.secrets.sshKeyFile != null;
-        message = "services.remarkable-mcp.secrets.sshKeyFile is required for SSH mode";
-      }
       {
         assertion = cfg.mode == "cloud" -> cfg.secrets.cloudTokenFile != null;
         message = "services.remarkable-mcp.secrets.cloudTokenFile is required for cloud mode";
@@ -110,15 +101,6 @@ in
           if [[ -r "${cfg.secrets.googleVisionKeyFile}" ]]; then
             export GOOGLE_VISION_API_KEY=$(${pkgs.coreutils}/bin/cat \
               "${cfg.secrets.googleVisionKeyFile}" | ${pkgs.coreutils}/bin/tr -d '\n')
-          fi
-        ''}
-
-        ${lib.optionalString (cfg.mode == "ssh" && cfg.secrets.sshKeyFile != null) ''
-          if [[ -r "${cfg.secrets.sshKeyFile}" ]]; then
-            export REMARKABLE_SSH_KEY="${cfg.secrets.sshKeyFile}"
-          else
-            echo "Error: Cannot read SSH key file" >&2
-            exit 1
           fi
         ''}
 
