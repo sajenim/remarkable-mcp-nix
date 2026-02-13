@@ -90,7 +90,7 @@ in
         # Static config
         export REMARKABLE_OCR_BACKEND="${cfg.remarkable.ocrBackend}"
         ${lib.optionalString (cfg.mode == "ssh") ''
-          export REMARKABLE_HOST="${cfg.remarkable.host}"
+          export REMARKABLE_SSH_HOST="${cfg.remarkable.host}"
         ''}
         ${lib.optionalString (cfg.remarkable.rootPath != null) ''
           export REMARKABLE_ROOT_PATH="${cfg.remarkable.rootPath}"
