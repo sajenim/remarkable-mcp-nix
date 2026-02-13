@@ -83,6 +83,9 @@ in
       (pkgs.writeShellScriptBin "remarkable-mcp" ''
         set -euo pipefail
 
+        # Native libraries for cairosvg (cairocffi dlopen)
+        export LD_LIBRARY_PATH="${pkgs.cairo}/lib:''${LD_LIBRARY_PATH:-}"
+
         # Static config
         export REMARKABLE_OCR_BACKEND="${cfg.remarkable.ocrBackend}"
         ${lib.optionalString (cfg.mode == "ssh") ''
